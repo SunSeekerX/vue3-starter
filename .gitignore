@@ -46,5 +46,9 @@ selenium-debug.log
 !.yarn/sdks
 !.yarn/versions
 
+# App
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
 .eslintcache
 src/auto-imports.d.ts
