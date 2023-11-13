@@ -6,7 +6,7 @@ export function createRequest(axiosOptions, createOptions) {
     {
       packErr: true,
     },
-    createOptions
+    createOptions,
   )
   const { packErr = true } = createOptions
 
@@ -16,38 +16,33 @@ export function createRequest(axiosOptions, createOptions) {
         withCredentials: false,
         timeout: 15000,
       },
-      axiosOptions
-    )
+      axiosOptions,
+    ),
   )
 
   instance.interceptors.request.use(
-    (config) => config,
-    (error) => Promise.reject(error)
+    (config) => {
+      if (config.method.toUpperCase() === 'GET') {
+        removeEmptyKey(config.params, false)
+      } else {
+        removeEmptyKey(config.data, false)
+      }
+      return config
+    },
+    (error) => Promise.reject(error),
   )
 
   instance.interceptors.response.use(
     (response) => response.data,
-    (error) => Promise.reject(error)
-  )
-
-  return async function request(config) {
-    if (config.method.toUpperCase() === 'GET') {
-      removeEmptyKey(config.params, false)
-    } else {
-      removeEmptyKey(config.data, false)
-    }
-    try {
-      const res = await instance.request(config)
-      return res
-    } catch (error) {
-      // console.log(error.toJSON())
+    (error) => {
       const result = {
         success: false,
+        error: error?.toJSON() || error,
       }
       if (error.response) {
         const { data } = error.response
         result['code'] = data.code || 500
-        result['message'] = data.message || 'Internal server error'
+        result['message'] = data.message || 'Server response error'
         result['response'] = error.response
       } else if (error.request) {
         result['code'] = 400
@@ -61,6 +56,8 @@ export function createRequest(axiosOptions, createOptions) {
       } else {
         return Promise.reject(result)
       }
-    }
-  }
+    },
+  )
+
+  return instance
 }
