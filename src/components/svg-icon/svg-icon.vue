@@ -64,10 +64,10 @@ export default defineComponent({
 
 <style scoped>
 .svg-icon {
-  overflow: hidden;
   width: 1em;
   height: 1em;
-  vertical-align: -0.15em;
+  overflow: hidden;
   fill: currentcolor;
+  vertical-align: -0.15em;
 }
 </style>
