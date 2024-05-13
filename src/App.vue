@@ -20,7 +20,6 @@ body {
   transition:
     color 0.5s,
     background-color 0.5s;
-  line-height: 1.6;
   font-family:
     Inter,
     -apple-system,
@@ -34,10 +33,13 @@ body {
     'Droid Sans',
     'Helvetica Neue',
     sans-serif;
-  /* font-size: 15px; */
-  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+
+  /* font-size: 15px; */
+  text-rendering: optimizelegibility;
+
   /* background: #070a29; */
 }
 </style>
